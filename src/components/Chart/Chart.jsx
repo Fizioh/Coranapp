@@ -22,7 +22,7 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
     confirmed ? (
       <Bar
         data={{
-          labels: ['Infected', 'Recovered', 'Deaths'],
+          labels: ['Cas', 'Guérisons', 'Morts'],
           datasets: [
             {
               label: 'People',
@@ -33,7 +33,7 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
         }}
         options={{
           legend: { display: false },
-          title: { display: true, text: `Current state in ${country}` },
+          title: { display: true, text: `Etat actuel en ${country}` },
         }}
       />
     ) : null
@@ -46,20 +46,21 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
           labels: dailyData.map(({ date }) => new Date(date).toLocaleDateString()),
           datasets: [{
             data: dailyData.map((data) => data.confirmed),
-            label: 'Infectés',
-            borderColor: '#3333ff',
+            label: 'Cas',
+            borderColor: 'rgba(46, 190, 130, 0.455)',
+            backgroundColor: 'rgba(46, 190, 130, 0.085)',
             fill: true,
           }, {
             data: dailyData.map((data) => data.deaths),
             label: 'Morts',
             borderColor: 'red',
-            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            backgroundColor: 'rgba(194, 47, 66, 0.732)',
             fill: true,
           },  {
             data: dailyData.map((data) => data.recovered),
             label: 'Guérisons',
-            borderColor: 'green',
-            backgroundColor: 'rgba(0, 255, 0, 0.5)',
+            borderColor: 'rgb(223, 190, 47',
+            backgroundColor: 'rgb(223, 190, 47',
             fill: true,
           },
           ],
@@ -69,9 +70,11 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
   );
 
   return (
+    
     <div className={styles.container}>
       {country ? barChart : lineChart}
     </div>
+      
   );
 };
 

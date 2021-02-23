@@ -1,70 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const api = {
-  key: "d5995c3650f5085567a18e5291da7b10",
-  base:"https://api.openweathermap.org/data/2.5/"
-}
-
-function App() {
-  const [query, setQuery] = useState('');
-  const [weather, setWeather] = useState({});
-
-  const search = evt => {
-    if (evt.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-      .then(res => res.json())
-      .then(result => {
-        setWeather(result);
-        setQuery('');
-        console.log(result);
-      });
-    }
+import { Cards, CountryPicker, Chart } from './components';
+import { fetchData } from './api/';
+import styles from './App.module.css';
+class App extends React.Component {
+  state = {
+    data: {},
+    country: '',
   }
 
-const dateBuilder = (d) => {
-  let months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"];
-  let days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  async componentDidMount() {
+    const data = await fetchData();
 
-  let day = days[d.getDay()];
-  let date = d.getDate();
-  let month = months[d.getMonth()];
-  let year = d.getFullYear();
+    this.setState({ data });
+  }
 
-  return  `${day} ${date} ${month} ${year}`
-}
+  handleCountryChange = async (country) => {
+    const data = await fetchData(country);
 
-  return (
-    <div className={(typeof weather.main != "undefined") ? ((weather.main.temp > 16) ? 'app warm' :'app') : 'app'}>
-      <main>
-        <div className="search-box">
-          <input 
-          type="text"
-          className="search-bar"
-          placeholder="Rechercher..."
-          onChange={e => setQuery(e.target.value)}
-          value={query}
-          onKeyPress={search}
-          />
-        </div>
-          {(typeof weather.main != "undefined") ? (
-            <div>
-        <div className="location-box">
-          <div className="location">{weather.name}, {weather.sys.country}</div>
-          <div className="date">{dateBuilder(new Date())}</div>
-        </div>
+    this.setState({ data, country: country });
+  }
 
+  render() {
+    const { data, country } = this.state;
 
-        <div className="weather-box">
-          <div className="temp">
-            {Math.round(weather.main.temp)}°C
-          </div>
-          <div className="weather">{weather.weather[0].main}</div>
-          </div>
-          </div>
-  ) : ('') }
-      </main>
-    </div>
-  );
+    return (
+      <div className={styles.container}>
+        {/*<img className={styles.image} src={image} alt="COVID-19" />*/}
+
+        <Cards data={data} />
+        <Chart data={data} country={country} />
+        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        
+      </div>
+    );
+  }
 }
 
 export default App;

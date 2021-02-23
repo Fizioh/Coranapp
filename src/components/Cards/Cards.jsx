@@ -3,18 +3,24 @@ import { Typography, Grid } from '@material-ui/core';
 import CardComponent from './Card/Card';
 import styles from './Cards.module.css';
 
-const Info = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
+
+
+
+const Info = ({ data: { confirmed, recovered, deaths, lastUpdate}}) => {
   if (!confirmed) {
     return 'Loading...';
   }
 
+  
+ 
+
   return (
     <div className={styles.container}>
-        <Typography gutterBottom variant="h4" component="h2">Statistiques Covid-19 par pays</Typography>
-      <Grid container spacing={3} justify="center">
+        <Typography gutterBottom variant="h4" component="h1">CoronaStats</Typography>
+      <Grid container spacing={4} justify="center">
         <CardComponent
           className={styles.infected}
-          cardTitle="Infectés"
+          cardTitle="Cas"
           value={confirmed.value}
           lastUpdate={lastUpdate}
           cardSubtitle="Nombre de cas actifs de COVID-19."
@@ -33,9 +39,9 @@ const Info = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
           lastUpdate={lastUpdate}
           cardSubtitle="Nombre de morts du COVID-19."
         />
-      </Grid>
+      </Grid> <br/>
     </div>
   );
-};
+  };
 
 export default Info;

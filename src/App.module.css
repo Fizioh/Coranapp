@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(250,250,250);
+    background-color: rgb(2, 2, 2);
 
 }
 .container {
@@ -13,6 +13,9 @@ body {
     width: 370px;
 margin-top: 50px;
 
+}
+iframe {
+    opacity: 55%;
 }
 
 @media (max-width: 770px) {
